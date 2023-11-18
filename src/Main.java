@@ -1,30 +1,74 @@
+import java.io.FileWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Map<Integer, String > hashMap = new HashMap<>();
-        hashMap.put(3, "ivan");
-        hashMap.put(4,"igor");
-        hashMap.put(5,"igor");
-        hashMap.put(6,"igor");
-        hashMap.put(8,"igor");
-        hashMap.put(3,"ivan2");
-        System.out.println(hashMap.keySet());
-        System.out.println(hashMap.values());
-        System.out.println(hashMap.entrySet());
-        System.out.println(hashMap.getOrDefault(8, "no such value!"));
-        Map<Integer, String > treeMap = new TreeMap<>();
-        treeMap.put(4,"test1");
-        treeMap.put(5,"test2");
-        treeMap.put(9,"test6");
-        treeMap.put(10,"test10");
-        treeMap.put(36,"test7439");
-        treeMap.put(87,"test442");
-        treeMap.put(43,"test38742");
-        treeMap.put(88,"aaa");
-        treeMap.put(11,"aaaaa");
+    public static void main(String[] args) throws Exception{
+        FileWriter fileWriter = new FileWriter("students.txt");
+        Map<String, Integer>  studentGrades = new HashMap<>();
+        Scanner scanner = new Scanner(System.in);
+        while (true){
+            System.out.println("menu:");
+            System.out.println("1 add grade");
+            System.out.println("2 remove grade");
+            System.out.println("3 find grade");
+            System.out.println("4 exit");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice){
+                case 1:
+                    System.out.println("enter student name");
+                    String name = scanner.nextLine();
+                    System.out.println("enter the grade");
+                    int grade = scanner.nextInt();
 
+
+                    studentGrades.put(name, grade);
+                    break;
+
+                case 2:
+                    System.out.println("enter student name to remove grade");
+                    String studentName = scanner.nextLine();
+                    if (studentGrades.containsKey(studentName)){
+                        studentGrades.remove(studentName);
+                    }else {
+                        System.out.println("no such student");
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("enter student name to search");
+                    String searchName = scanner.nextLine();
+                    if (studentGrades.containsKey(searchName)){
+                        int studentGrade = studentGrades.get(searchName);
+                        System.out.println("student with name: " + searchName + " with grade " + studentGrade);
+
+                    }else {
+                        System.out.println("no such student");
+                    }
+                    break;
+                case 4:
+
+                    System.out.println("closing program");
+                    scanner.close();
+                    fileWriter.write(String.valueOf(studentGrades));
+                    fileWriter.close();
+                    Path path = Paths.get("C:\\Users\\Roman\\Desktop\\MapPR\\students.txt");
+                    List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+                    System.out.println(lines);
+                    System.exit(0);
+                    break;
+
+                default:
+                    System.out.println("incorrect input!");
+
+            }
+        }
 
 
     }
+
 }
